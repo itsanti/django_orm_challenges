@@ -15,9 +15,10 @@ from challenges.models import Book
 
 
 def get_book(book_id: int) -> Book | None:
-    # код писать тут
-    pass
-
+    try:
+        return Book.objects.get(id=book_id)
+    except Book.DoesNotExist:
+        return None
 
 def book_details_handler(request: HttpRequest, book_id: int) -> HttpResponse:
     book = get_book(book_id)
