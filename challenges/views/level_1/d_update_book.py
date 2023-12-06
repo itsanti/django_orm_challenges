@@ -13,8 +13,17 @@ from challenges.models import Book
 
 
 def update_book(book_id: int, new_title: str, new_author_full_name: str, new_isbn: str) -> Book | None:
-    # код писать тут
-    pass
+    try:
+        book = Book.objects.get(id=book_id)
+    except Book.DoesNotExist:
+        return None
+
+    book.title = new_title
+    book.author_full_name = new_author_full_name
+    book.isbn = new_isbn
+    book.save()
+
+    return book
 
 
 def update_book_handler(request: HttpRequest, book_id: int) -> HttpResponse:
