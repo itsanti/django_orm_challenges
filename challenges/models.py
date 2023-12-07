@@ -1,4 +1,6 @@
 from django.db import models
+from django.forms.models import model_to_dict
+import json
 
 
 class Book(models.Model):
@@ -23,3 +25,8 @@ class Laptop(models.Model):
 
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
+
+    def to_json(self):
+        data = model_to_dict(self)
+        data['created_at'] = self.created_at
+        return json.dumps(data, default=str)
