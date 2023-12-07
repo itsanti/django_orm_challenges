@@ -30,3 +30,36 @@ class Laptop(models.Model):
         data = model_to_dict(self)
         data['created_at'] = self.created_at
         return json.dumps(data, default=str)
+
+
+class Post(models.Model):
+    class Status(models.TextChoices):
+        PUBLISHED = "PUB", "опубликован"
+        DRAFT = "DRAFT", "не опубликован"
+        BANNED = "BANNED", "забанен"
+
+    class Category(models.TextChoices):
+        BOOKS = "BOOKS", "Книги"
+        GAMES = "GAMES", "Игры"
+        MUSIC = "MUSIC", "Музыка"
+
+    title = models.CharField(max_length=256)
+    text = models.CharField(max_length=2000)
+    author = models.CharField(max_length=50)
+    status = models.CharField(
+        max_length=10,
+        choices=Status.choices
+    )
+    category = models.CharField(
+        max_length=20,
+        choices=Category.choices
+    )
+    published_at = models.DateField()
+
+    created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)
+
+    def to_json(self):
+        data = model_to_dict(self)
+        data['created_at'] = self.created_at
+        return json.dumps(data, default=str)
